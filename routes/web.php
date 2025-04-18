@@ -25,9 +25,10 @@ Route::post('/TopUp', [WalletController::class, 'TopUp'])->name('TopUp');
 Route::post('/withdraw', [WalletController::class, 'withdraw'])->name('withdraw');
 Route::post('/transfer', [WalletController::class, 'transfer'])->name('transfer');
 Route::post('/acceptRequest', [WalletController::class, 'acceptRequest'])->name('acceptRequest');
+Route::get('/export-pdf/user/{id}', [ReportController::class, 'exportPDFByUser'])->name('export.pdf.user');
 
-Route::get('/report/export-pdf', [ReportController::class, 'exportPDF'])->name('report.pdf');
 
+Route::get('/export-pdf', [ReportController::class, 'exportPDF'])->name('export.pdf');
 Route::post('/topup-user', [WalletController::class, 'topUpToUser'])->name('TopUpToUser');
 Route::post('/withdraw-user', [WalletController::class, 'withdrawFromUser'])->name('WithdrawFromUser');
 
