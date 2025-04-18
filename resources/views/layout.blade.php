@@ -3,15 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> Dashboard - MyBank</title>
+    <title>Dashboard - MyBank</title>
 
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
-    <!-- Bootstrap Icons CDN -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-    <!-- DataTables CSS -->
     <link href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" rel="stylesheet">
 
     <style>
@@ -137,16 +135,6 @@
                 padding: 0.4rem 0.75rem;
             }
         }
-/*
-        .dark-mode {
-            background-color: #1e1e2f !important;
-            color: #f8f9fa !important;
-        }
-
-        .dark-mode .card {
-            background-color: #2c2c3c;
-            color: #f8f9fa;
-        } */
 
         .dark-mode .table {
             color: #f8f9fa;
@@ -162,20 +150,8 @@
             color: #fff;
         }
 
-        /* animasi admin */
-         .fade-in {
+        .fade-in {
             animation: fadeInUp 0.8s ease-in-out;
-        }
-
-        @keyframes fadeInUp {
-            from {
-                transform: translateY(20px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
         }
 
         .card-hover:hover {
@@ -192,7 +168,6 @@
             justify-content: center;
             font-size: 1.5rem;
         }
-
     </style>
 </head>
 <body>
@@ -220,6 +195,14 @@
 </nav>
 
 <main class="py-3 container-fluid">
+
+    {{-- Flash Message --}}
+    @if (session('status'))
+        <div class="alert alert-success alert-dismissible fade show animate__animated animate__fadeInDown" role="alert">
+            {{ session('status') }}
+        </div>
+    @endif
+
     @yield('content')
 </main>
 
@@ -227,12 +210,13 @@
     &copy; {{ now()->year }} MyBank. All rights reserved.
 </footer>
 
+<!-- JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 
 <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
         $('#userTable').DataTable({
             responsive: true,
             paging: true,
@@ -248,8 +232,6 @@
             }
         });
     });
-
-    // buat js admin
 
     document.addEventListener("DOMContentLoaded", function () {
         const counters = document.querySelectorAll('.count-up');
@@ -270,6 +252,18 @@
         });
     });
 
+    // Auto-hide flash message setelah 4 detik
+    setTimeout(function () {
+        const alertEl = document.querySelector('.alert');
+        if (alertEl) {
+            alertEl.classList.remove('show');
+            alertEl.classList.add('animate__fadeOutUp');
+
+            setTimeout(() => {
+                alertEl.remove();
+            }, 800);
+        }
+    }, 4000);
 </script>
 
 </body>

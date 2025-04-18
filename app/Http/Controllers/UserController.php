@@ -10,7 +10,7 @@ class UserController extends Controller
 {
     public function index()
     {
-
+        //
     }
 
     public function create()
@@ -18,27 +18,25 @@ class UserController extends Controller
         return view('admin.create');
     }
 
-   public function store(Request $request)
+    public function store(Request $request)
     {
         $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email',
+            'name'     => 'required|string|max:255',
+            'email'    => 'required|email|unique:users,email',
             'password' => 'required|string|min:6',
-            'role' => 'required|string',
+            'role'     => 'required|string',
         ]);
 
         $user = User::create([
-            'name' => $validated['name'],
-            'email' => $validated['email'],
-            'password' => Hash::make($validated['password']), // ✅ Enkripsi password
-            'role' => $validated['role'],
+            'name'     => $validated['name'],
+            'email'    => $validated['email'],
+            'password' => Hash::make($validated['password']),
+            'role'     => $validated['role'],
         ]);
 
-        if ($user) {
-            return redirect('home')->with('status', 'Success add User');
-        }
-
-        return redirect()->back()->with('status', 'Failed add User');
+        return $user
+            ? redirect('home')->with('status', 'Success add User')
+            : redirect()->back()->with('status', 'Failed add User');
     }
 
     public function show(string $id)
@@ -53,19 +51,25 @@ class UserController extends Controller
 
     public function update(Request $request, User $user)
     {
-        $user->update($request->all());
-        if($user){
-            return redirect('home')->with('status', 'Success Update ');
+        $data = $request->only(['name', 'email', 'role']);
+
+        if ($request->filled('password')) {
+            $data['password'] = Hash::make($request->password);
         }
-        return redirect ()->back()->with('status', 'Failed Update ');
+
+        $user->update($data);
+
+        return $user
+            ? redirect('home')->with('status', 'Success Update')
+            : redirect()->back()->with('status', 'Failed Update');
     }
 
     public function destroy(User $user)
     {
         $user->delete();
-        if($user){
-            return redirect('home')->with('status', 'Success Delete User');
-        }
-        return redirect ()->back()->with('status', 'Failed Delete User');
+
+        return $user
+            ? redirect('home')->with('status', 'Success Delete User')
+            : redirect()->back()->with('status', 'Failed Delete User');
     }
 }

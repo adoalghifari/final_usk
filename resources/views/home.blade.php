@@ -284,7 +284,7 @@
             {{-- Tombol Export --}}
             <div class="row mb-4">
                 <div class="col-md-12 text-end">
-                     
+
                 </div>
             </div>
 
@@ -343,7 +343,7 @@
                                     </li>
                                     <a href="{{ route('export.pdf.user', $data->user->id) }}" class="btn btn-sm btn-danger mt-2" target="_blank">
                                         <i class="fas fa-file-pdf"></i> Export PDF
-                                    </a> 
+                                    </a>
                                 @endforeach
                             </ul>
                         </div>
@@ -375,35 +375,34 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @forelse ($userAll->where('role', 'siswa') as $key => $user)
-                                            <tr>
-                                                <td class="text-center">{{ $key + 1 }}</td>
-                                                <td>{{ $user->name }}</td>
-                                                <td><span class="badge bg-secondary">{{ $user->role }}</span></td>
-                                                <td>{{ $user->email }}</td>
-                                                <td class="text-center">
-                                                    <a href="{{ route('bank.edit', $user) }}"
-                                                        class="btn btn-sm btn-outline-warning me-1" title="Edit">
-                                                        <i class="bi bi-pencil-square"></i>
-                                                    </a>
-                                                    <form action="{{ route('bank.destroy', $user->id) }}" method="POST"
-                                                        class="d-inline">
-                                                        @csrf
-                                                        @method('delete')
-                                                        <button class="btn btn-sm btn-outline-danger"
-                                                            onclick="return confirm('Hapus {{ $user->name }}?')"
-                                                            title="Delete">
-                                                            <i class="bi bi-trash"></i>
-                                                        </button>
-                                                    </form>
-                                                </td>
-                                            </tr>
-                                        @empty
-                                            <tr>
-                                                <td colspan="5" class="text-center text-muted">Tidak ada user.</td>
-                                            </tr>
-                                        @endforelse
-                                    </tbody>
+                                    @forelse ($userAll->where('role', 'siswa') as $key => $user)
+                                        <tr>
+                                            <td class="text-center">{{ $key + 1 }}</td>
+                                            <td>{{ $user->name }}</td>
+                                            <td><span class="badge bg-secondary">{{ $user->role }}</span></td>
+                                            <td>{{ $user->email }}</td>
+                                            <td class="text-center">
+                                                <a href="{{ route('user.edit', $user->id) }}"
+                                                    class="btn btn-sm btn-outline-warning me-1" title="Edit">
+                                                    <i class="bi bi-pencil-square"></i>
+                                                </a>
+                                                <form action="{{ route('user.destroy', $user->id) }}" method="POST" class="d-inline">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-sm btn-outline-danger"
+                                                        onclick="return confirm('Hapus {{ $user->name }}?')"
+                                                        title="Delete">
+                                                        <i class="bi bi-trash"></i>
+                                                    </button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    @empty
+                                        <tr>
+                                            <td colspan="5" class="text-center text-muted">Tidak ada user.</td>
+                                        </tr>
+                                    @endforelse
+                                </tbody>
                                 </table>
                             </div>
                         </div>
@@ -441,7 +440,7 @@
                         <a href="{{ route('export.pdf') }}" class="btn btn-danger" target="_blank">
                             <i class="fas fa-file-pdf"></i> Export PDF
                         </a>
-                        
+
 
                         <ul class="list-group list-group-flush small">
                             @forelse ($mutasi as $data)
@@ -459,7 +458,7 @@
                                 </li>
                                 <a href="{{ route('export.pdf.user', $data->user->id) }}" class="btn btn-sm btn-danger mt-2" target="_blank">
                                     <i class="fas fa-file-pdf"></i> Export PDF
-                                </a>                                
+                                </a>
                             @empty
                                 <li class="list-group-item text-center text-muted">Belum ada transaksi.</li>
                             @endforelse

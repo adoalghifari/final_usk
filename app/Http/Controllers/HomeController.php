@@ -54,9 +54,7 @@ class HomeController extends Controller
             $user = Auth::user();
 
             // Ganti status jadi 'Selesai' untuk perhitungan saldo
-            $wallet = Wallet::where('user_id', $user->id)
-                            ->where('status', 'Selesai')
-                            ->get();
+            $wallet = Wallet::where('user_id', $user->id)->where('status', 'Selesai')->get();
 
             $credit = 0;
             $debit = 0;
@@ -68,14 +66,10 @@ class HomeController extends Controller
 
             $saldo = $credit - $debit;
 
-            $mutasi = Wallet::where('user_id', $user->id)
-                            ->orderBy('created_at', 'DESC')
-                            ->get();
+            $mutasi = Wallet::where('user_id', $user->id)->orderBy('created_at', 'DESC')->get();
 
             // Mengambil semua user dengan role 'siswa' selain user yang sedang login
-            $users = User::where('role', 'siswa')
-                        ->where('id', '!=', $user->id)
-                        ->get();
+            $users = User::where('role', 'siswa')->where('id', '!=', $user->id)->get();
 
             return view('home', compact('saldo', 'mutasi', 'users'));
         }
