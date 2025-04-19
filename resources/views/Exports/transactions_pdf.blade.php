@@ -37,32 +37,4 @@
 
     <hr>
 
-    <h4>Daftar User</h4>
-    <table>
-        <thead>
-            <tr>
-                <th>#</th>
-                <th>Nama</th>
-                <th>Role</th>
-                <th>Email</th>
-                <th>Terdaftar</th>
-            </tr>
-        </thead>
-        <tbody>
-            @forelse ($userAll as $key => $u)
-                <tr>
-                    <td>{{ $key + 1 }}</td>
-                    <td>{{ $u->name }}</td>
-                    <td>{{ $u->role }}</td>
-                    <td>{{ $u->email }}</td>
-                    <td>{{ $u->created_at->format('d M Y') }}</td>
-                </tr>
-            @empty
-                <tr>
-                    <td colspan="5" style="text-align:center;">Tidak ada user.</td>
-                </tr>
-            @endforelse
-        </tbody>
-    </table>
-
 </body>

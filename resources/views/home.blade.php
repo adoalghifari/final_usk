@@ -16,7 +16,7 @@
                     <button class="btn btn-info me-2" data-bs-toggle="modal"
                         data-bs-target="#formTransfer">Transfer</button>
                     <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#formwithdraw">Withdraw</button>
-                    <a href="{{ route('report.pdf') }}" class="btn btn-outline-danger me-2">
+                    <a href=" {{ route('export.pdf.user', Auth::id()) }}" class="btn btn-outline-danger me-2">
                         <i class="bi bi-file-earmark-pdf"></i> Export PDF
                     </a>
 
@@ -147,8 +147,7 @@
         <div class="container my-4">
             <div class="row mb-4">
                 <div class="col-md-6">
-                    <p class="mb-1 fw-semibold text-muted">Balance:</p>
-                    <h3 class="card-text">{{ $saldo }}</h3>
+
                 </div>
                 <div class="col-md-6 text-md-end">
                     <button class="btn btn-success me-2" data-bs-toggle="modal" data-bs-target="#formTopUp">Top
@@ -288,7 +287,7 @@
                 </div>
             </div>
 
-            <div class="row">
+            <div class="row d-flex justify-content-center">
                 <!-- Request Transaction -->
                 <div class="col-lg-6 mb-4">
                     <div class="card shadow-sm">
@@ -320,35 +319,6 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- History Transaction -->
-                <div class="col-lg-6 mb-4">
-                    <div class="card shadow-sm">
-                        <div class="card-header bg-secondary text-white">
-                            History Transaction
-                        </div>
-                        <div class="card-body">
-                            <ul class="list-group">
-                                @foreach ($mutasi as $data)
-                                    <li class="list-group-item">
-                                        <div>
-                                            @if ($data->credit)
-                                                <span class="text-success fw-bold">Credit:</span> {{ $data->credit }}
-                                            @else
-                                                <span class="text-danger fw-bold">Debit:</span> {{ $data->debit }}
-                                            @endif
-                                        </div>
-                                        <div>Name: {{ $data->user->name }}</div>
-                                        <div><small>{{ $data->description }} | {{ $data->created_at }}</small></div>
-                                    </li>
-                                    <a href="{{ route('export.pdf.user', $data->user->id) }}" class="btn btn-sm btn-danger mt-2" target="_blank">
-                                        <i class="fas fa-file-pdf"></i> Export PDF
-                                    </a>
-                                @endforeach
-                            </ul>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
 
@@ -375,9 +345,13 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                    @forelse ($userAll->where('role', 'siswa') as $key => $user)
+                                    @php
+                                        $i = 1;
+
+                                    @endphp
+                                    @forelse ($userAll->where('role', 'siswa') as $user)
                                         <tr>
-                                            <td class="text-center">{{ $key + 1 }}</td>
+                                            <td class="text-center">{{ $i }}</td>
                                             <td>{{ $user->name }}</td>
                                             <td><span class="badge bg-secondary">{{ $user->role }}</span></td>
                                             <td>{{ $user->email }}</td>
@@ -397,6 +371,9 @@
                                                 </form>
                                             </td>
                                         </tr>
+                                        @php
+                                            $i++
+                                        @endphp
                                     @empty
                                         <tr>
                                             <td colspan="5" class="text-center text-muted">Tidak ada user.</td>
@@ -414,7 +391,6 @@
 
     @if (Auth::user()->role == 'admin')
         <div class="row g-3 position-relative fade-in">
-
             {{-- Statistik Users --}}
             <div class="col-md-4">
                 <div class="card shadow-sm border-0 h-100 card-hover">
@@ -437,11 +413,9 @@
                         <h6 class="mb-0">History Transaction</h6>
                     </div>
                     <div class="card-body p-2" style="max-height: 200px; overflow-y: auto;">
-                        <a href="{{ route('export.pdf') }}" class="btn btn-danger" target="_blank">
-                            <i class="fas fa-file-pdf"></i> Export PDF
+                        <a href="{{ route('export.pdf.date') }}" class="btn btn-sm btn-danger mt-2" target="_blank">
+                                <i class="fas fa-file-pdf"></i> Export PDF
                         </a>
-
-
                         <ul class="list-group list-group-flush small">
                             @forelse ($mutasi as $data)
                                 <li class="list-group-item">
@@ -456,9 +430,9 @@
                                         <p class="mb-0 text-muted">{{ $data->description }}</p>
                                     </div>
                                 </li>
-                                <a href="{{ route('export.pdf.user', $data->user->id) }}" class="btn btn-sm btn-danger mt-2" target="_blank">
+                                {{-- <a href="{{ route('export.pdf.user', $data->user->id) }}" class="btn btn-sm btn-danger mt-2" target="_blank">
                                     <i class="fas fa-file-pdf"></i> Export PDF
-                                </a>
+                                </a> --}}
                             @empty
                                 <li class="list-group-item text-center text-muted">Belum ada transaksi.</li>
                             @endforelse
@@ -523,8 +497,6 @@
                     </div>
                 </div>
             </div>
-
         </div>
     @endif
-
 @endsection

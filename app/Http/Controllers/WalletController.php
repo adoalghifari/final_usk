@@ -123,7 +123,7 @@ class WalletController extends Controller
         $user = Auth::user();
         $recipient = User::findOrFail($request->recipient_id);
 
-        $totalSaldo = Wallet::where('user_id', $user->id)->where('status', 'selesai')->sum(DB::raw('credit - debit'));
+        $totalSaldo = Wallet::where('user_id', $user->id)->where('status', 'Selesai')->sum(DB::raw('credit - debit'));
 
         if ($totalSaldo < $request->amount) {
             return redirect()->back()->with('status', 'Saldo tidak cukup untuk transfer');
@@ -136,7 +136,7 @@ class WalletController extends Controller
                 'user_id' => $user->id,
                 'credit' => 0,
                 'debit' => $request->amount,
-                'status' => 'Proses',
+                'status' => 'Selesai',
                 'description' => 'Transfer ke ' . $recipient->name
             ]);
 
@@ -145,7 +145,7 @@ class WalletController extends Controller
                 'user_id' => $recipient->id,
                 'credit' => $request->amount,
                 'debit' => 0,
-                'status' => 'Proses',
+                'status' => 'Selesai',
                 'description' => 'Transfer dari ' . $user->name
             ]);
 
@@ -164,5 +164,5 @@ class WalletController extends Controller
 
         return redirect()->back()->with('status', 'Permintaan berhasil disetujui');
     }
-    
+
 }

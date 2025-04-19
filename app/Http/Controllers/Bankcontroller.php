@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Wallet;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class BankController extends Controller
@@ -86,5 +89,40 @@ class BankController extends Controller
         }
 
         return redirect()->back()->with('status', 'Failed Delete User');
+    }
+
+    public function show()
+    {
+
+    }
+
+    public function transaksi()
+    {
+        
+            $userAll = User::all();
+            $wallet = Wallet::where('status', 'Selesai')->get();
+            $credit = 0;
+            $debit  = 0;
+            foreach($wallet as $item) {
+                $credit += $item->credit;
+                $debit += $item->debit;
+            }
+            $saldo = $credit - $debit;
+            $nasabah = User::where('role', 'siswa')->get();
+            $jumlahNasabah = $nasabah->count();
+            $request_payment = Wallet::where('status', 'Proses')->orderBy('created_at', 'DESC')->get();
+            $mutasi = Wallet::where('status','Selesai')->orderBy('created_at','DESC')->get();
+            $allmutasi = Wallet::where('status','Selesai')->count();
+            
+            return view('bank.transaksi', [
+                'allmutasi' => $allmutasi,
+                'saldo' => $saldo,
+                'nasabah' => $jumlahNasabah,
+                'request_payment' => $request_payment,
+                'mutasi' => $mutasi,
+                'users' => $nasabah, // kirim ke view
+                'userAll' => $userAll
+            ]);
+        
     }
 }

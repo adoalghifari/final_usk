@@ -138,8 +138,7 @@
                                 <div class="input-group">
                                     <span class="input-group-text"><i class="bi bi-shield-lock-fill"></i></span>
                                     <select name="role" class="form-select" required>
-                                        <option value="">-- Choose Role --</option>
-                                        <option value="admin">Admin</option>
+                                        <option value="">-- Choose Role --</option>                                        
                                         <option value="bank">Bank</option>
                                         <option value="siswa">Siswa</option>
                                     </select>

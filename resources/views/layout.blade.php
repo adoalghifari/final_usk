@@ -177,6 +177,11 @@
         <a class="navbar-brand d-flex align-items-center" href="#">
             <i class="fas fa-university me-2"></i><strong>MyBank</strong>
         </a>
+        
+        @if (Auth::user()->role == 'bank')
+            <a href="/home" class="btn btn-danger">Home</a>
+            <a href="{{ route('bank.transaksi') }}" class="btn btn-secondary">History</a>    
+        @endif
 
         <div class="ms-auto d-flex align-items-center">
             @auth

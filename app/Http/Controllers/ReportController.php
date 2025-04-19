@@ -42,4 +42,22 @@ class ReportController extends Controller
 
         return $pdf->download('transaksi_' . $user->name . '.pdf');
     }
+
+    public function exportAllPDFByDate()
+    {
+        $transactions = Wallet::where('status', 'Selesai')
+            ->with('user')
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        $groupedTransactions = $transactions->groupBy(function ($item) {
+            return $item->created_at->toDateString();
+        });
+
+        $pdf = Pdf::loadView('exports.transactions_pdf_date', [
+            'groupedTransactions' => $groupedTransactions
+        ]);
+
+        return $pdf->download('semua_transaksi_per_hari.pdf');
+    }
 }
