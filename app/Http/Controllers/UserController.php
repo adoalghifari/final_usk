@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Wallet;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -71,5 +72,14 @@ class UserController extends Controller
         return $user
             ? redirect('home')->with('status', 'Success Delete User')
             : redirect()->back()->with('status', 'Failed Delete User');
+    }
+
+    public function transaksi()
+    {
+         $user = User::all()->count();
+            $userAll = User::all();
+            $mutasi = Wallet::where('status','Selesai')->orderBy('created_at','DESC')->get();
+
+            return view('admin.transaksi', compact('user','userAll','mutasi'));
     }
 }

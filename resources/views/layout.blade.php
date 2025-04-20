@@ -357,6 +357,17 @@
 
             <div class="collapse navbar-collapse" id="navbarMain">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    @if (Auth::user()->role == 'admin')
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="/home"><i
+                                    class="bi bi-house-door me-1"></i>Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('admin.transaksi') }}"><i
+                                    class="bi bi-clock-history me-1"></i>History</a>
+                        </li>
+                    @endif
+
                     @if (Auth::user()->role == 'bank')
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="page" href="/home"><i
@@ -367,7 +378,7 @@
                                     class="bi bi-clock-history me-1"></i>History</a>
                         </li>
                     @endif
-                </ul>
+                </ul>                 
 
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0 d-flex align-items-center">
                     @auth
@@ -403,7 +414,7 @@
                 {{ session('status') }}
             </div>
         @endif
-        
+
         @yield('content')
     </main>
 

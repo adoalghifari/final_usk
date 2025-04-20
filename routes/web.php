@@ -34,5 +34,6 @@ Route::post('/topup-user', [WalletController::class, 'topUpToUser'])->name('TopU
 Route::post('/withdraw-user', [WalletController::class, 'withdrawFromUser'])->name('WithdrawFromUser');
 
 Route::get('/bank/history', [BankController::class, 'transaksi'])->name('bank.transaksi');
+Route::get('/admin/history', [UserController::class, 'transaksi'])->name('admin.transaksi');
 
 Route::get('/export/transactions/per-date', [ReportController::class, 'exportAllPDFByDate'])->name('export.pdf.date');
